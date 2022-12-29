@@ -2,9 +2,9 @@ import 'package:chat_app/layout/home_screen.dart';
 import 'package:chat_app/module/login/login_controller.dart';
 import 'package:chat_app/module/login/login_view_model.dart';
 import 'package:chat_app/module/register/register_screen.dart';
+import 'package:chat_app/shared/component/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:chat_app/shared/component/utils.dart' as utils;
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'loginScreen';
@@ -160,8 +160,27 @@ class _LoginScreenState extends State<LoginScreen> implements LoginController {
                           style: Theme.of(context).textTheme.headline1,
                         ),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .04,
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              await logInViewModel.loginWithGoogle();
+                            },
+                            icon: Image.asset(
+                              'asset/images/google.png',
+                            ),
+                            iconSize: 40,
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Image.asset('asset/images/facebook.png'),
+                            iconSize: 40,
+                          ),
+                        ],
                       ),
                       TextButton(
                         onPressed: () {

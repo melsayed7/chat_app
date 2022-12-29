@@ -2,6 +2,7 @@ import 'package:chat_app/module/login/login_controller.dart';
 import 'package:chat_app/shared/component/firebase_error.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LogInViewModel extends ChangeNotifier {
   late LoginController loginController;
@@ -25,4 +26,15 @@ class LogInViewModel extends ChangeNotifier {
       }
     }
   }
-}
+
+  Future<void> loginWithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    AuthCredential authCredential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    var authResult =
+    await FirebaseAuth.instance.signInWithCredential(authCredential);
+    loginController.showMessage('Login successfully');
+    print(authResult.user?.email);
+  }
+  
