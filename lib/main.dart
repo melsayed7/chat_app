@@ -1,3 +1,4 @@
+import 'package:chat_app/layout/home_screen.dart';
 import 'package:chat_app/module/login/login_screen.dart';
 import 'package:chat_app/module/register/register_screen.dart';
 import 'package:chat_app/shared/style/my_Theme.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
       },
       theme: MyTheme.lightTheme,
     );
