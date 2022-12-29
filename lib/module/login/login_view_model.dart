@@ -28,7 +28,9 @@ class LogInViewModel extends ChangeNotifier {
   }
 
   Future<void> loginWithGoogle() async {
+    loginController.showLoading();
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    loginController.hideLoading();
     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
     AuthCredential authCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
@@ -37,4 +39,4 @@ class LogInViewModel extends ChangeNotifier {
     loginController.showMessage('Login successfully');
     print(authResult.user?.email);
   }
-  
+}
