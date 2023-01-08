@@ -1,5 +1,10 @@
+import 'dart:async';
+
+import 'package:chat_app/model/chat_user.dart';
+import 'package:chat_app/module/home/home_screen.dart';
 import 'package:chat_app/module/register/register_controller.dart';
 import 'package:chat_app/module/register/register_view_model.dart';
+import 'package:chat_app/provider/user_provider.dart';
 import 'package:chat_app/shared/component/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
                                 color: Colors.blue,
                               )),
@@ -106,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
                                 color: Colors.blue,
                               )),
@@ -130,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
                                 color: Colors.blue,
                               )),
@@ -146,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             return 'Please entre valid email';
                           }
                           final bool emailValid = RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(email.text);
                           if (!emailValid) {
                             return 'Please entre valid email like john@gmail.com';
@@ -160,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
                                 color: Colors.blue,
                               )),
@@ -187,7 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                              BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
                                 color: Colors.blue,
                               )),
@@ -200,7 +205,11 @@ class _RegisterScreenState extends State<RegisterScreen>
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             viewModel.registerFirebaseAuth(
-                                email.text, password.text);
+                                email.text,
+                                password.text,
+                                firstName.text,
+                                lastName.text,
+                                userName.text);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -236,8 +245,19 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   @override
   void showMessage(String message) {
-    utils.showMessage(context, message, 'Ok', (context) {
-      Navigator.of(context).pop();
+    Timer(const Duration(seconds: 5), () {
+      utils.showMessage(context, message, 'Ok', (context) {
+        Navigator.of(context).pop();
+      });
+    });
+  }
+
+  @override
+  void navigateToHome(ChatUser user) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.user = user;
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     });
   }
 }

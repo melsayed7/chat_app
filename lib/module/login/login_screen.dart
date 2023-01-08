@@ -1,7 +1,11 @@
-import 'package:chat_app/layout/home_screen.dart';
+import 'dart:async';
+
+import 'package:chat_app/model/chat_user.dart';
+import 'package:chat_app/module/home/home_screen.dart';
 import 'package:chat_app/module/login/login_controller.dart';
 import 'package:chat_app/module/login/login_view_model.dart';
 import 'package:chat_app/module/register/register_screen.dart';
+import 'package:chat_app/provider/user_provider.dart';
 import 'package:chat_app/shared/component/utils.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -168,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginController {
                         children: [
                           IconButton(
                             onPressed: () async {
-                              await logInViewModel.loginWithGoogle();
+                              //await logInViewModel.loginWithGoogle();
                             },
                             icon: Image.asset(
                               'asset/images/google.png',
@@ -221,8 +225,17 @@ class _LoginScreenState extends State<LoginScreen> implements LoginController {
       } else if (message == 'Wrong password provided for that user') {
         Navigator.of(context).pop();
       } else {
-        Navigator.of(context).pushNamed(HomeScreen.routeName);
+        Navigator.of(context).pop();
       }
+    });
+  }
+
+  @override
+  void navigateToHome(ChatUser user) {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.user = user;
+    Timer(const Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     });
   }
 }
