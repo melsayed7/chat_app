@@ -1,6 +1,10 @@
+import 'package:chat_app/database/database_helper.dart';
+import 'package:chat_app/model/room.dart';
 import 'package:chat_app/module/add_room/add_room.dart';
+import 'package:chat_app/module/add_room/room_widget.dart';
 import 'package:chat_app/module/home/home_screen_controller.dart';
 import 'package:chat_app/module/home/home_screen_view_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +53,32 @@ class _HomeScreenState extends State<HomeScreen>
                 Navigator.of(context).pushNamed(AddRoom.routeName);
               },
               child: const Icon(Icons.add),
+            ),
+            body: StreamBuilder<QuerySnapshot<Room>>(
+              stream: DatabaseHelper.getRoomsFromFirebase(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                } else {
+                  var roomList =
+                      snapshot.data?.docs.map((doc) => doc.data()).toList() ??
+                          [];
+                  return GridView.builder(
+                    itemCount: roomList.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 4,
+                      mainAxisSpacing: 4,
+                    ),
+                    itemBuilder: (context, index) {
+                      return RoomWidget(room: roomList[index]);
+                    },
+                  );
+                }
+              },
             ),
           ),
         ],

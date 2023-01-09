@@ -36,4 +36,8 @@ class DatabaseHelper {
     room.roomID = docRef.id;
     return docRef.set(room);
   }
+
+  static Stream<QuerySnapshot<Room>> getRoomsFromFirebase() {
+    return getRoomCollection().snapshots();
+  }
 }

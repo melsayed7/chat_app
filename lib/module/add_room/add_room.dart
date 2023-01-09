@@ -56,7 +56,6 @@ class _AddRoomState extends State<AddRoom> implements AddRoomController {
             body: Container(
               margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 32),
               padding: const EdgeInsets.all(20),
-              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18),
