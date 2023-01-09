@@ -1,4 +1,5 @@
 import 'package:chat_app/model/chat_user.dart';
+import 'package:chat_app/model/room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseHelper {
@@ -12,6 +13,15 @@ class DatabaseHelper {
         );
   }
 
+  static CollectionReference<Room> getRoomCollection() {
+    return FirebaseFirestore.instance
+        .collection(Room.collectionName)
+        .withConverter<Room>(
+          fromFirestore: (snapshot, options) => Room.fromJson(snapshot.data()!),
+          toFirestore: (room, options) => room.toJson(),
+        );
+  }
+
   static Future<void> registerUser(ChatUser user) async {
     return getUserCollection().doc(user.id).set(user);
   }
@@ -19,5 +29,11 @@ class DatabaseHelper {
   static Future<ChatUser?> getUser(String userID) async {
     var docSnapshot = await getUserCollection().doc(userID).get();
     return docSnapshot.data();
+  }
+
+  static Future<void> addRoomToFirebase(Room room) async {
+    var docRef = getRoomCollection().doc();
+    room.roomID = docRef.id;
+    return docRef.set(room);
   }
 }
