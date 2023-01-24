@@ -130,7 +130,7 @@ class _AddRoomState extends State<AddRoom> implements AddRoomController {
                       },
                     ),
                     const SizedBox(
-                      height: 16,
+                      height: 25,
                     ),
                     TextFormField(
                       controller: desRoom,

@@ -245,9 +245,15 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   @override
   void showMessage(String message) {
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 2), () {
       utils.showMessage(context, message, 'Ok', (context) {
-        Navigator.of(context).pop();
+        if (message == 'The password provided is too weak') {
+          Navigator.of(context).pop();
+        } else if (message == 'The account already exists for that email') {
+          Navigator.of(context).pop();
+        } else {
+          Navigator.of(context).pop();
+        }
       });
     });
   }

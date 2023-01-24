@@ -4,6 +4,7 @@ import 'package:chat_app/module/add_room/add_room.dart';
 import 'package:chat_app/module/add_room/room_widget.dart';
 import 'package:chat_app/module/home/home_screen_controller.dart';
 import 'package:chat_app/module/home/home_screen_view_model.dart';
+import 'package:chat_app/module/login/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,16 @@ class _HomeScreenState extends State<HomeScreen>
                 style: Theme.of(context).textTheme.headline1,
               ),
               centerTitle: true,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    DatabaseHelper.logOUt();
+                    Navigator.of(context)
+                        .pushReplacementNamed(LoginScreen.routeName);
+                  },
+                  icon: const Icon(Icons.logout),
+                ),
+              ],
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
